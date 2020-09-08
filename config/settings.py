@@ -92,9 +92,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'fundingforlectures',
-        'USER': 'root',
-        'PASSWORD': '2tmdwn8247-',
-        'HOST': 'localhost',
+        'USER': 'fundingforlectures',
+        'PASSWORD': 'test12345-',
+        'HOST': '52.79.101.129',
         'PORT': '3306',
     }
 }
