@@ -1,20 +1,16 @@
-from pymongo import MongoClient
-from .mongodbconnection import Connect
+from django.db import models
+from django.urls import reverse
 
 # Create your models here.
-class MongoConnection(object):
-    def __init__(self):
-        conn = Connect.get_connection()
-        MONGO_SESSION_COLLECTION = 'mongo_sessions'
-        self.db = conn.get_database('DB')
-        self.collection = self.db.get_collection('user')
+class User(models.Model):
+    email = models.EmailField(db_index=True, unique=True)
+    password = models.TextField(max_length=20)
+    userType = models.BooleanField(db_index=True)
+    pr = models.TextField(max_length=500, blank=True, null=True)
+    career = models.TextField(max_length=500, blank=True, null=True)
 
-    def userCheck(self):
-        result = self.collection.find_one({'id': self.userId})
-        return result
+    class Meta:
+        pass
 
-    def createUser(self, createInfo):
-        self.collection.insert_one(createInfo)
-
-    def set(self, user_id):
-        self.userId = user_id
+    def __str__(self):
+        return self.email
