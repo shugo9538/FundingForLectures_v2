@@ -14,11 +14,7 @@
 <title>글자수 세기</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script type="text/javascript">
-
   $(document).ready(function(){
-
-
-
     id = $('#id').val()
     mbname = $('#mbname').val()
     mbpw1 = $('#mbpw1').val()
@@ -83,6 +79,7 @@
 
 
 
+
 </script>
 
 <script language="javascript">
@@ -96,6 +93,7 @@
    alert("회원가입을 취소 하였습니다.");
   }
  }
+
  function checkDisable(frm)
 {
     if( frm.chkbox.value == 1 ){
@@ -107,8 +105,6 @@
         frm.textarea2.disabled = false;
     }
 }
-
-
 
 </script>
 {% endblock %}
@@ -124,100 +120,82 @@
                     <h1>
                         <h3>회원가입</h3>
                     </h1>
-                    <form id="tregister" name="tregister" action="{% url 'create' %}" method="post">
+                    <form id="tregister" name="tregister" action="{% url 'create' %}" method="POST"
+                          enctype="application/x-www-form-urlencoded">
                         {% csrf_token %}
                         <table width="940" style="padding:5px 0 5px 0; ">
                             <tr height="2" bgcolor="#FFC8C3">
                                 <td colspan="2"></td>
                             </tr>
+                            <tr><th><br></th></tr>
                             <tr>
-                                <th>아이디</th>
+                                <th>
+                                    {{ form.email.label }}
+                                </th>
                                 <td>
-                                    <input type="text" id="id" name="id" placeholder="영문 및 숫자 10자리 이하">
+                                    {{ form.email }}
                                 </td>
                             </tr>
+                            <tr><th><br></th></tr>
                             <tr>
-                                <th><br></th>
-                            </tr>
-                            <tr>
-                                <th> 닉네임</th>
-                                <td><input type="text" id="mbname" name="mbname" placeholder="8자리 이상"></td>
-                            </tr>
-                            <tr>
-                                <th><br></th>
-                            </tr>
-                            <tr>
-                                <th>비밀번호</th>
-                                <td><input type="password" id="mbpw1" name="mbpw1" placeholder="10자리 이하" maxlength="10">
+                                <th>
+                                    {{ form.password.label }}
+                                </th>
+                                <td>
+                                    {{ form.password }}
                                 </td>
                             </tr>
+                            <tr><th><br></th></tr>
                             <tr>
-                                <th>비밀번호 확인</th>
-                                <td><input type="password" id="mbpw_re1" placeholder="10자리 이하" maxlength="10"></td>
+                                <th>
+                                    {{ form.password2.label }}
+                                </th>
+                                <td>
+                                    {{ form.password2 }}
+                                </td>
                             </tr>
+                            <tr><th><br></th></tr>
                             <tr>
-                                <th><br><br></th>
+                                <th></th>
                                 <td><font id="chkNotice" size="2"></font></td>
                             </tr>
                             <tr>
-                                <th><br></th>
-                            </tr>
-                            <tr>
-                                <th>이메일</th>
+                                <th>
+                                    {{ form.userType.label }}
+                                </th>
                                 <td>
-                                    <input type='text' id="email" name='email' size="40"
-                                           placeholder="ex) test@test.com">
+                                    {% for radio in form.userType %}
+                                    {{ radio }}
+                                    {% endfor %}
                                 </td>
                             </tr>
-                            <th><br></th>
+                            <tr><th><br></th></tr>
                             <tr>
-                                <th></th>
+                                <th>
+                                    {{ form.pr.label }}
+                                </th>
                                 <td>
-                                    <input name="chkbox" type="radio" id="mbtype"
-                                           onchange="checkDisable(this.form)" value="1">수강생<br>
-                                    <input name="chkbox" type="radio" id="mbtype2"
-                                           onchange="checkDisable(this.form)" value="2" checked="checked">강사<br>
-                                </td>
-                            </tr>
-                            <tr><br></tr>
-                            <tr>
-                                <th>자기소개서<br> (최대 500자)</th>
-                                <td>
-                                    <textarea name="textarea1" rows="10" cols="100" id="txt1"
-                                              onkeyup="counter()"
-                                              maxlength="500"></textarea>
+                                    {{ form.pr }}
                                     <br>
                                     <span id="counting1">0</span>자 /500자
                                 </td>
                             </tr>
+                            <tr><th><br></th></tr>
                             <tr>
-                                <th><br></th>
-                            </tr>
-                            <tr>
-                                <th>경력서<br> (최대 500자)</th>
+                                <th>
+                                    {{ form.career.label }}
+                                </th>
                                 <td>
-                                    <textarea name="textarea2" rows="10" cols="100" id="txt2"
-                                              onkeyup="counter()"
-                                              maxlength="500"></textarea>
+                                    {{ form.career }}
                                     <br>
                                     <span id="counting2">0</span>자 /500자
                                 </td>
                             </tr>
-                            <tr height="2" bgcolor="#FFC8C3">
-                                <td colspan="2"></td>
-                            </tr>
-                            <tr>
-                            <tr>
-                                <td colspan="2" align="center"><br>
-                                    <input type=submit id="conform" value="회원가입" onclick="showConfirm();">
-                                    <!-- "window.open('https://www.naver.com/', '_blank', 'width=200, height=300, toolbar=yes, menubar=no, scrollbars=no, resizable=no, copyhistory=no' );" -->
-                                    <!-- https://blog.naver.com/dasol825/220667449843 -->
-                                </td>
-                            </tr>
-                            </tr>
+                            <tr><th><br></th></tr>
                         </table>
-                        </td>
-                        </tr>
+                        <p colspan="2" align="center"><br>
+                            <input type=submit id="conform" value="회원가입" onclick="showConfirm();">
+                        </p>
                     </form>
                 </div>
             </div>

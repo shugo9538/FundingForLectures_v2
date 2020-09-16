@@ -3,8 +3,8 @@ from django.urls import reverse
 
 # Create your models here.
 class User(models.Model):
-    email = models.EmailField(db_index=True, unique=True)
-    password = models.TextField(max_length=20)
+    email = models.EmailField(db_index=True, unique=True, primary_key=True)
+    password = models.TextField(max_length=20, null=False)
     userType = models.BooleanField(db_index=True)
     pr = models.TextField(max_length=500, blank=True, null=True)
     career = models.TextField(max_length=500, blank=True, null=True)

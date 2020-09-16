@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.views import LogoutView, LoginView
-from django.urls import reverse, reverse_lazy
+from django.contrib.auth.models import User
+from django.contrib.auth import login, logout
 
 from .models import *
+from .forms import RegisterForm
 
 # 회원가입
 def join(request):
@@ -12,31 +14,26 @@ def article(request):
     return render(request, 'users/article.html')
 
 def enrollment(request):
-    return render(request, 'users/enrollment.html')
+    form = RegisterForm()
+    context = { 'form': form }
+
+    return render(request, 'users/enrollment.html', context)
 
 def create(request):
-    print(request.POST)
+    if request.method == "POST":
+        u = User()
+        form = RegisterForm(request.POST, instance=u)
 
-    createEmail = request.POST['email']
-    createPassword = request.POST['mbpw1']
-
-    if request.POST['chkbox'] == True :
-        createUserType = True
-        createPr = None
-        createCareer = None
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect("mainpage:index")
     else:
-        createUserType = False
-        createPr = request.POST.get('textarea1')
-        createCareer = request.POST.get('textarea2')
+        form = RegisterForm()
 
-    createUser = User(email=createEmail,
-                      password=createPassword,
-                      userType=createUserType,
-                      pr=createPr,
-                      career=createCareer)
-    createUser.save()
+    context = {'form': form}
 
-    return redirect(reverse('index'))
+    return render(request, 'users/enrollment.html', context)
 
 # 구글 계정 연동 추가 중
 def auth_allowed(backend, uid, user=None, *args, **kwargs):
