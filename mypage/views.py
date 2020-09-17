@@ -28,6 +28,16 @@ def edit_info(request):
 def withdrawal(request):
     return render(request, 'mypage/withdrawal.html')
 
+def doWithdrawal(request):
+    try:
+        user_id = request.session['name']
+        user = User.objects.get(email=user_id)
+        user.delete()
+        request.session['name'] = None
+    except:
+        request.session['msg'] = "error"
+    return render(request, 'mainpage/index.html')
+
 def lecturefunding(request):
     return render(request, 'mypage/lecturefunding.html')
 

@@ -71,7 +71,7 @@
             {
              alert("회원탈퇴 되었습니다.");
              event.preventDefault()
-             window.location.assign("index.html");
+             location.href='{% url 'doWithdrawal' %}';
 
             }
            }
@@ -109,7 +109,7 @@
                 <div class="block block-border-bottom-grey block-pd-sm">
 
 
-                    <form name="frmJoin" action="" onSubmit="return CheckForm(this)">
+                    <form name="frmJoin" action="" method="get" onSubmit="return CheckForm(this)">
                         <tr>
                             <span style="color:red"><h6>그 동안 강의 펀딩 사이트를 이용해주셔서 감사합니다.</h6></span>
                             <span style="color:red"><h6>탈퇴 후에는 아이디와 데이터는 복구할 수 없습니다.</h6></span>

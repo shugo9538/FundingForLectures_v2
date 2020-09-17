@@ -67,11 +67,11 @@ class Login(LoginView):
         # 읽어온 사용자 정보와 일치하는지 확인
         if User.objects.filter(email=user_id) and User.objects.filter(password=user_pw):
             request.session['name'] = user_id
+            return redirect(reverse('index'))
         else:
             request.session['failed'] = errorMsg
             return redirect(reverse('login'))
 
-        return redirect(reverse('index'))
 
 # 로그인 후 로그아웃 버튼 클릭시
 class Logout(LogoutView):
