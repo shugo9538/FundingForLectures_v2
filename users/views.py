@@ -1,22 +1,18 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.views import LogoutView, LoginView
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse
 
 from .models import *
 
 # 회원가입
 def join(request):
-    return render(request, 'users/join.html')
-
-def article(request):
+    request.session['failed'] = None
     return render(request, 'users/article.html')
 
 def enrollment(request):
     return render(request, 'users/enrollment.html')
 
 def create(request):
-    print(request.POST)
-
     createEmail = request.POST['email']
     createPassword = request.POST['mbpw1']
 
@@ -34,7 +30,13 @@ def create(request):
                       userType=createUserType,
                       pr=createPr,
                       career=createCareer)
-    createUser.save()
+
+    if User.objects.filter(email=createEmail):
+        request.session['failed'] = "이미 존재하는 이메일입니다."
+        return redirect(reverse('enrollment'))
+    else:
+        request.session['failed'] = None
+        createUser.save()
 
     return redirect(reverse('index'))
 
@@ -60,22 +62,15 @@ class Login(LoginView):
 
         errorMsg = '로그인에 실패했습니다. 아이디와 비밀번호를 확인해주세요'
 
-        # userInfo.set(user_id)
-        # responseInfo = userInfo.userCheck()
-
         request.session['failed'] = None
 
         # 읽어온 사용자 정보와 일치하는지 확인
-        # if responseInfo is not None:
-        #     if user_id == responseInfo['id'] and user_pw == responseInfo['pw']:
-        #         request.session['name'] = responseInfo['nickname']
-        #     else:
-        #         request.session['failed'] = errorMsg
-        #         return redirect(reverse('login'))
-        # else:
-        #     request.session['failed'] = errorMsg
-        #     return redirect(reverse('login'))
-        #
+        if User.objects.filter(email=user_id) and User.objects.filter(password=user_pw):
+            request.session['name'] = user_id
+        else:
+            request.session['failed'] = errorMsg
+            return redirect(reverse('login'))
+
         return redirect(reverse('index'))
 
 # 로그인 후 로그아웃 버튼 클릭시

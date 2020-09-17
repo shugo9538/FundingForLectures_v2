@@ -59,6 +59,15 @@
 <body class="page-index has-hero">
 <!--Change the background class to alter background image, options are: benches, boots, buildings, city, metro -->
 <div id="background-wrapper" class="buildings" data-stellar-background-ratio="0.1">
+{% if request.session.failed != null %}
+<h4 class="navbar navbar-default" align="middle">
+    <p><br></p>
+    {% for msg in request.session.failed %}
+    {{ msg }}
+    {% endfor %}
+    <p><br></p>
+</h4>
+{% endif %}
     <!-- ======== @Region: #navigation ======== -->
     <div id="navigation" class="wrapper">
         <!--Header & navbar-branding region-->

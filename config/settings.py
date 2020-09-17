@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 from pathlib import Path
 
 import dj_database_url
-import django_heroku
 import os
 import pymysql
 import json

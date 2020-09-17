@@ -1,8 +1,29 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.urls import reverse
+
+from users.models import *
 
 # Create your views here.
 def edit(request):
     return render(request, 'mypage/correction.html')
+
+def edit_info(request):
+    user_id = request.session['name']
+    presenet_pw = request.POST.get('mbpw_present')
+    edit_pw = request.POST.get('mbpw')
+    edit_pwchk = request.POST.get('mbpw_re1')
+
+    errorMsg = '변경할 비밀번호를 다시 확인해주세요'
+
+    if User.objects.filter(email=user_id) and User.objects.filter(password=presenet_pw):
+        if edit_pw == edit_pwchk:
+            updateUser = User.objects.get(email=user_id)
+            updateUser.password = edit_pw
+            updateUser.save()
+            request.session['failed'] = None
+        else:
+            request.session['failed'] = errorMsg
+    return redirect(reverse('edit'))
 
 def withdrawal(request):
     return render(request, 'mypage/withdrawal.html')

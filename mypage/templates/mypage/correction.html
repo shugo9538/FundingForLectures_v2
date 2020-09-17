@@ -8,7 +8,7 @@
  if (confirm("회원정보를 수정하시겠습니까?"))
   {
    alert("회원정보가 수정되었습니다.");
-   location.href='index.html';
+   location.href='{% url 'edit_info' %}';
   } else {
    alert("회원정보가 수정되지 않았습니다.");
   }
@@ -29,31 +29,29 @@
                     </h1>
                 </div>
                 <div class="block block-border-bottom-grey block-pd-sm">
-                    <form id="tregister" name="tregister" action="/users/join" method="post">
+                    <form id="tregister" name="tregister" action="{% url 'edit_info' %}" method="post" enctype="application/x-www-form-urlencoded">
+                        {% csrf_token %}
                         <table width="940" style="padding:5px 0 5px 0; ">
                             <tr>
-                                <th>아이디</th>
+                                <th>이메일</th>
                                 <td>
-                                    <input type="text" id="id" placeholder="영문 및 숫자 10자리 이하">
+                                    {{ request.session.name }}
                                 </td>
                             </tr>
                             <tr>
                                 <th><br></th>
                             </tr>
                             <tr>
-                                <th>닉네임</th>
-                                <td><input type="text" id="mbname" placeholder="8자리 이상"></td>
+                                <th>현재 비밀번호</th>
+                                <td><input type="password" id="mbpw_present" name="mbpw_present" placeholder="10자리 이하" maxlength="10"></td>
                             </tr>
                             <tr>
-                                <th><br></th>
+                                <th>변경할 비밀번호</th>
+                                <td><input type="password" id="mbpw" name="mbpw" placeholder="10자리 이하" maxlength="10"></td>
                             </tr>
                             <tr>
-                                <th>비밀번호</th>
-                                <td><input type="password" id="mbpw1" placeholder="10자리 이하" maxlength="10"></td>
-                            </tr>
-                            <tr>
-                                <th>비밀번호 확인</th>
-                                <td><input type="password" id="mbpw_re1" placeholder="10자리 이하" maxlength="10"></td>
+                                <th>변경할 비밀번호 확인</th>
+                                <td><input type="password" id="mbpw_re1" name="mbpw_re1" placeholder="10자리 이하" maxlength="10"></td>
                             </tr>
                             <tr>
                                 <th></th>
@@ -63,45 +61,26 @@
                                 </td>
                             </tr>
                             <tr>
-                                <th><br><br></th>
+                                <th><br></th>
                                 <td><font id="chkNotice" size="2"></font></td>
                             </tr>
                             <tr>
                             </tr>
-                            <tr>
-                                <th>이메일</th>
-                                <td>
-                                    <input type='text' id="email" size="40" placeholder="ex) test@test.com">
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>이메일 확인</th>
-                                <td>
-                                    <input type='text' id="emailchk" size="40" placeholder="ex) test@test.com">
-                                </td>
-                            </tr>
-                            <tr>
-                                <th><br></th>
-                            </tr>
-
-
                             <tr height="2" bgcolor="#FFC8C3">
                                 <td colspan="2"></td>
                             </tr>
                             <tr>
                             <tr>
                                 <td colspan="2" align="center"><br>
-                                    <input type=button id="conform" value="확인" onclick="showConfirm();">
-                                    <!-- "window.open('https://www.naver.com/', '_blank', 'width=200, height=300, toolbar=yes, menubar=no, scrollbars=no, resizable=no, copyhistory=no' );" -->
-                                    <!-- https://blog.naver.com/dasol825/220667449843 -->
+                                    <input type=submit value="확인" onclick="showConfirm();">
                                 </td>
                             </tr>
                             </tr>
                         </table>
                         </td>
                         </tr>
-                    </form>
 
+                    </form>
                 </div>
 
             </div>

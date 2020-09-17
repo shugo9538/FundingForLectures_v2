@@ -1,9 +1,8 @@
 from django.db import models
-from django.urls import reverse
 
 # Create your models here.
 class User(models.Model):
-    email = models.EmailField(db_index=True, unique=True)
+    email = models.EmailField(db_index=True, unique=True, primary_key=True)
     password = models.TextField(max_length=20)
     userType = models.BooleanField(db_index=True)
     pr = models.TextField(max_length=500, blank=True, null=True)
@@ -13,4 +12,6 @@ class User(models.Model):
         pass
 
     def __str__(self):
-        return self.email
+        return [self.email, self.userType, self.pr, self.career]
+
+

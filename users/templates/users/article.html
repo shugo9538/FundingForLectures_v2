@@ -11,7 +11,7 @@
 
           if(chk1!=false || chk2!=false){
               alert('회원가입 약관에 동의 하십니까?에 체크해 주세요');
-              window.location.assign("{% url 'article' %}");
+              window.location.assign("{% url 'join' %}");
           }
           if(chk1==chk2 && chk1!=false){
               alert("회원가입 하시겠습니까?");
