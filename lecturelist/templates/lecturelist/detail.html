@@ -14,26 +14,11 @@
             <div class="col-md-9 col-md-push-3">
                 <div class="page-header">
                     <h1>
-                        <h3>전체 강의목록</h3>
+                        <h3>{{ lecture.lecture_title }}</h3>
                     </h1>
                 </div>
                 <div class="block block-border-bottom-grey block-pd-sm">
-                    <table border="1" width=90% height=30px>
-                        <tr align=center>
-                            <td width="50">번호</td>
-                            <td width="200">강의명</td>
-                            <td width="150">강사</td>
-                            <td width="300">강의 요약</td>
-                        </tr>
-                        {% for lecture in list %}
-                        <tr align=center>
-                            <td width="50"><a href="{% url 'detail' lecture.id %}">{{ lecture.id }}</a></td>
-                            <td width="200">{{ lecture.lecture_title }}</td>
-                            <td width="150"></td>
-                            <td width="300">{{ lecture.lecture_title }}</td>
-                        </tr>
-                        {% endfor %}
-                    </table>
+                    {{ lecture.lecture_summary }}
                 </div>
 
             </div>

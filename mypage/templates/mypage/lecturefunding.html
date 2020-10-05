@@ -6,17 +6,9 @@
 <script language="javascript">
  function showfunding() {
    alert("강의 펀딩이 개설되었습니다.");
-   location.href='.html';
-
  }
 
-
-
 </script>
-
-<!--  업로드  -->
-{% load static %}
-<script type="text/javascript" src="{% static 'js/app13.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -33,48 +25,35 @@
                         </h1>
                     </div>
                     <div class="block block-border-bottom-grey block-pd-sm">
-
-                        <tr>
-                            <th>제목</th>
-                            <td>
-                                <input type="text" id="title">
-                            </td>
-                        </tr>
-                        <tr>
-                            <th><br><br></th>
-                        </tr>
-                        <tr>
-                            <th> 내용</th>
-                            <td>
-                                <form action="http://localhost/upload.php" method="post" enctype="multipart/form-data">
-                                    <input type="file" name="file">
-                                </form>
-                            </td>
-
-                        </tr>
-                        <tr>
-                            <th><br><br><br><br><br></th>
-                        </tr>
-                        <tr>
-                            <th>영상</th>
-                            <td>
-                                <br>
-                                <textarea rows="10" cols="80" id="txt1" onkeyup="counter()" maxlength="500"></textarea>
-                                <br>
-                            </td>
-                        </tr>
-
-                        <tr height="2" bgcolor="#FFC8C3">
-                            <td colspan="2"></td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" align="center"><br>
-                                <input type="submit">
-                                <input type=button id="conform" value="확인" onclick="showfunding();">
-                                <!-- "window.open('https://www.naver.com/', '_blank', 'width=200, height=300, toolbar=yes, menubar=no, scrollbars=no, resizable=no, copyhistory=no' );" -->
-                                <!-- https://blog.naver.com/dasol825/220667449843 -->
-                            </td>
-                        </tr>
+                        <form action="{% url 'lecturefunding' %}" method="POST" enctype="application/x-www-form-urlencoded">
+                            {% csrf_token %}
+                            <table width="800" height="400" style="padding:5px 0 5px 0;">
+                                <tr>
+                                    <th colspan="1">
+                                        {{ form.lecture_title.label }}
+                                    </th>
+                                    <td rowspan="1">
+                                        {{ form.lecture_title }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th colspan="1">
+                                        {{ form.lecture_summary.label }}
+                                    </th>
+                                    <td rowspan="1">
+                                        {{ form.lecture_summary }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th><br><br></th>
+                                </tr>
+                                <tr>
+                                    <td colspan="1"><br>
+                                        <input type=submit id="conform" value="확인" onclick="showfunding();">
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
                     </div>
                 </div>
                 <!-- sidebar -->

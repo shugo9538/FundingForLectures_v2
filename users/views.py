@@ -41,38 +41,26 @@ def auth_allowed(backend, uid, user=None, *args, **kwargs):
     return redirect(reverse('index'))
 
 # 로그인 버튼 누르는 경우 동작
-def signin(request):
-    if request.method == "POST":
-        form = LoginForm(request.POST)
-        u = request.user
-        print(u.is_authenticated)
-        print(u)
+class Login(LoginView):
+    def get(self, request):
+        return render(request, 'users/login.html')
 
-        if u.is_authenticated:
-            user_id = request.POST['email']
-            user_pw = request.POST['password']
-            user = authenticate(email=user_id, password=user_pw)
+    def post(self, request):
+        # 로그인 버튼 클릭시 폼(아이디, 패스워드)에서 데이터를 읽어옴
+        user_id = request.POST['id']
+        user_pw = request.POST['password']
 
-            print(user)
+        errorMsg = '로그인에 실패했습니다. 아이디와 비밀번호를 확인해주세요'
 
-            errorMsg = '로그인에 실패했습니다. 아이디와 비밀번호를 확인해주세요'
+        request.session['failed'] = None
 
-            if user is not None:
-                request.session['name'] = user_id
-                login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-                return redirect('index')
-            else:
-                request.session['failed'] = errorMsg
-                return redirect('login')
+        if User.objects.filter(email=user_id) and User.objects.filter(password=user_pw):
+            request.session['name'] = user_id
         else:
-            return  redirect('login')
+            request.session['failed'] = errorMsg
+            return redirect(reverse('login'))
 
-    else:
-        form = LoginForm()
-
-        context = {'form': form}
-
-        return render(request, 'users/login.html', context)
+        return redirect(reverse('index'))
 
 
 # 로그인 후 로그아웃 버튼 클릭시

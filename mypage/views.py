@@ -1,7 +1,10 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
+from django.views.decorators.csrf import csrf_exempt
 
 from users.models import *
+from .models import *
+from .forms import *
 
 # Create your views here.
 def edit(request):
@@ -38,8 +41,25 @@ def doWithdrawal(request):
         request.session['msg'] = "error"
     return render(request, 'mainpage/index.html')
 
+@csrf_exempt
 def lecturefunding(request):
-    return render(request, 'mypage/lecturefunding.html')
+    if request.method == "POST":
+        title = request.POST['lecture_title']
+        summary = request.POST['lecture_summary']
+
+        u = Lecuture()
+        form = FundingForm(data=request.POST, instance=u)
+        print(form.data)
+        if form.is_valid():
+            form(lecture_user=request.session['id'])
+            form.save()
+            return redirect(reverse('lecturefunding'))
+    else:
+        form = FundingForm()
+
+    context = {'form': form}
+
+    return render(request, 'mypage/lecturefunding.html', context)
 
 def student(request):
     return render(request, 'mypage/student.html')

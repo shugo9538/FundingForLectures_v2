@@ -8,7 +8,7 @@ urlpatterns = [
     path('join/enrollment/', views.enrollment, name='enrollment'), # 약관 확인후 동의 시 페이지 이동
 
     # 로그인 창
-    path('login/', views.signin, name='login'), # 로그인 버튼 클릭 시
+    path('login/', views.Login.as_view(), name='login'), # 로그인 버튼 클릭 시
     # path('googleLogin/', views.login, name='googleLogin'), # 구글 로그인
 
     # 로그아웃 버튼
